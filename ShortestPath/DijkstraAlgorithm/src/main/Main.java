@@ -1,5 +1,9 @@
 package main;
 
+import dijkstraalgorithm.DijkstraAlgorithm;
+import dijkstraalgorithm.Edge;
+import dijkstraalgorithm.Vertex;
+
 /*
  * Shortest Path Algorithms
  *	Shortest path problem: finding a path between two vertices in a graph such that the sum of the weights of its edges is minimized
@@ -48,7 +52,31 @@ package main;
  * 					predecessor[v] = u 
  * 		
  * 		return distance[] //contains the shortest distance from source to other nodes
+ *	
  *
+ *		DAG shortest path
+ *			If the graph is a DAG, so there is no directed cycles, it is easier to find the shortest path 
+ *			We sort the vertices into topological order: we iterate throught the topological order relaxing all edges
+ *			form the actual vertex
+ *			Topological sort algorithm computes shortest path tree in any edge weighted (can be negative!!!) DAG in timeO(E+V)
+ *			It is much faster than Bellman-Ford or Dijkstra
+ *			Application: solving Knapsack-problem
+ *
+ * 
+ * 	Applications: 
+ * 		GPS, E-mail path finder etc.
+ * 		
+ *  Avidan-Shamir method
+ *  	When we want to shrink an image for example in the browser or on a smartphone without distortion
+ *  	We want to make sure the image will not deform
+ *  	we have to eliminate the least significant bit strings
+ *  	We set up an "energy function": and remove the connected string of pixels containing the least energy 
+ *  	Photoshop, GIMP use it
+ *  	We build a huge graph: vertices are the pixels and the edges are pointing from every vertex to its downward 3 neighbours
+ *  	The energy function determines what the edge weights will be
+ *  	It's acyclic: we can use topological order shortest path to find the string of pixels to be removed
+ *  	
+ * 
  *
  */
 
@@ -56,7 +84,20 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-	
+		Vertex vertex0 = new Vertex("A");
+		Vertex vertex1 = new Vertex("B");
+		Vertex vertex2 = new Vertex("C");
+		
+		vertex0.addNeighbour(new Edge(1,vertex0, vertex1));
+		vertex0.addNeighbour(new Edge(3,vertex0, vertex2));
+		vertex1.addNeighbour(new Edge(1,vertex1, vertex2));
+		
+		
+		DijkstraAlgorithm algorithm = new DijkstraAlgorithm();
+		algorithm.computePath(vertex0);
+		
+		System.out.println(algorithm.getShortestPathTo(vertex2));
+		
 		
 		
 	}
