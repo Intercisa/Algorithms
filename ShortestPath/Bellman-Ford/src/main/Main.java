@@ -1,5 +1,12 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import bellmanford.BellmanFordAlgorithm;
+import bellmanford.Edge;
+import bellmanford.Vertex;
+
 /*
  * Shortest Path Algorithms
  * 
@@ -12,12 +19,12 @@ package main;
  * 		Does V - 1 iteration + 1 to detect cycles: if cost decreases in the V-th iteration, than there is a negative cycle,
  * 		because all the paths are traversen up to the V - 1 iteration 
  * 			
- * 			A
- *		   ^ \	 			
- * 		  /   \		 	What is the problem? 
- * 		 5	   1		If we would like to find a path with the minimum cost
- *	    /	    \			we have to go A->B->C-A
- *	   /		 V	 	And a next cycle: decrease the cost again
+ * 			 A
+ *		   ^  \	 			
+ * 		  /    \		What is the problem? 
+ * 		 5	    1		If we would like to find a path with the minimum cost
+ *	    /	     \			we have to go A->B->C-A
+ *	   /		  V	 	And a next cycle: decrease the cost again
  *	  C<-- - 10 -- B  	And again...	
  *	
  *	Real life scenario: no negative cycles at all... but sometimes we transform a problem into a graph
@@ -69,8 +76,31 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-	
+	List<Vertex> vertexList = new ArrayList<>();
 		
+		vertexList.add(new Vertex("A"));
+		vertexList.add(new Vertex("B"));
+		vertexList.add(new Vertex("C"));
+		vertexList.add(new Vertex("D"));
+		vertexList.add(new Vertex("E"));
+		
+		List<Edge> edgeList = new ArrayList<>();
+		edgeList.add(new Edge(vertexList.get(0),vertexList.get(1),5));
+		edgeList.add(new Edge(vertexList.get(0),vertexList.get(3),-4));
+		edgeList.add(new Edge(vertexList.get(0),vertexList.get(2),8));
+		edgeList.add(new Edge(vertexList.get(1),vertexList.get(0),-2));
+		edgeList.add(new Edge(vertexList.get(2),vertexList.get(1),-3));
+		edgeList.add(new Edge(vertexList.get(2),vertexList.get(3),9));
+		edgeList.add(new Edge(vertexList.get(3),vertexList.get(1),7));
+		edgeList.add(new Edge(vertexList.get(4),vertexList.get(0),6));
+		edgeList.add(new Edge(vertexList.get(4),vertexList.get(2),7));
+		
+
+		BellmanFordAlgorithm bellmannFordAlgorithm = new BellmanFordAlgorithm(vertexList,edgeList);
+		bellmannFordAlgorithm.bellmanFord(vertexList.get(4));
+		bellmannFordAlgorithm.shortestPathTo(vertexList.get(3));
+		
+	
 		
 	}
 }
