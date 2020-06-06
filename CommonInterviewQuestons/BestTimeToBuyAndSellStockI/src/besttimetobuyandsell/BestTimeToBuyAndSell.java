@@ -16,14 +16,14 @@ public class BestTimeToBuyAndSell {
 	
 	public int getMaxProfitDP(int[] prices) {
 		
-		int[] dpTable = new int[prices.length];
+		int[] dpTable = new int[prices.length + 1];
 		int minPrice = Integer.MAX_VALUE;
 		
-		for (int i = 1; i < prices.length; i++) {
-			dpTable[i] = Math.max(dpTable[i - 1], prices[i]-minPrice);
+		for (int i = 0; i < prices.length; i++) {
+			dpTable[i+1] = Math.max(dpTable[i], prices[i]-minPrice);
 			minPrice = Math.min(minPrice, prices[i]);
 		}
 		
-		return dpTable[prices.length-1];
+		return dpTable[prices.length];
 	}
 }
